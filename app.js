@@ -1,8 +1,15 @@
+require('dotenv').config
+
 const express = require("express");
 const app = express();
 const notFound = require('./middlewares/notFound');
 const errorHandlerMiddleware = require('./middlewares/errorHandler');
 
+
+//  APP CONFIG
+app.use(express.json());
+app.use(notFound);
+app.use(errorHandlerMiddleware);
 
 
 
