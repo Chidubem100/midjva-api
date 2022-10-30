@@ -1,4 +1,4 @@
-const BADREQUEST = require('./badRequest');
+const BadRequestError = require('./badRequest');
 const CUSTOMERROR = require('./customError');
 const NOTFOUND = require('./notFoundErrors');
 
@@ -7,6 +7,7 @@ const NOTFOUND = require('./notFoundErrors');
 
 module.exports = {
     NOTFOUND,
-    BADREQUEST,
+    BadRequestError,
+    // BADREQUEST,
     CUSTOMERROR
 }

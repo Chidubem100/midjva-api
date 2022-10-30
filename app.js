@@ -11,7 +11,7 @@ const asyncWrapper = require('./middlewares/async');
 
 //  APP CONFIG
 app.use(express.json());
-// app.use(notFound);
+app.use(notFound);
 app.use(errorHandlerMiddleware);
 app.use(asyncWrapper)
 
@@ -19,13 +19,15 @@ app.use(asyncWrapper)
 app.use('/api/v1', authRoute);
 app.use('/api/v1', mainRouter)
 
-app.get('/', (req,res) =>{
+app.get('/api', (req,res) =>{
     try {
         return res.status(200).json({msg: "Midjva api"})
     } catch (error) {
         return res.status(500).json({error})
     }
 });
+
+
 
 
 
