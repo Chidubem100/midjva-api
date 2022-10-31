@@ -1,23 +1,25 @@
-require('dotenv').config
+
+require('dotenv').config();
+
 
 const express = require("express");
 const app = express();
 const notFound = require('./middlewares/notFound');
+const auth = require('./middlewares/authMiddleware');
 const errorHandlerMiddleware = require('./middlewares/errorHandler');
 const connectDB = require('./db/connect');
 const authRoute = require('./routes/authRouter');
 const mainRouter = require('./routes/mainRouter');
-const asyncWrapper = require('./middlewares/async');
+
 
 //  APP CONFIG
 app.use(express.json());
-app.use(notFound);
+// app.use(notFound);
 app.use(errorHandlerMiddleware);
-app.use(asyncWrapper)
 
 
 app.use('/api/v1', authRoute);
-app.use('/api/v1', mainRouter)
+app.use('/api/v1', auth,mainRouter);
 
 app.get('/api', (req,res) =>{
     try {
@@ -26,9 +28,6 @@ app.get('/api', (req,res) =>{
         return res.status(500).json({error})
     }
 });
-
-
-
 
 
 
@@ -46,6 +45,3 @@ const start = async() =>{
 }
 
 start();
-// app.listen(Port, () =>{
-//     console.log(`server started on ${Port}`)
-// });

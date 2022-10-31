@@ -12,17 +12,18 @@ const userSchema = new mongoose.Schema({
         ],
         unique: true,    
     },
-    firstName: {
+    fullName: {
         type: String,
-        required: [true, 'Please provide your first name'],
+        required: [true, 'Please provide your fullname'],
         minlength: 3,
         maxlength: 20
     },
-    lastName: {
+    userName: {
         type: String,
-        required: [true, 'Please provide your last name'],
+        required: [true, 'Please provide your username'],
         minlength: 3,
-        maxlength: 20
+        maxlength: 20,
+        unique: true,
     },
     company: {
         type: String,
@@ -37,8 +38,11 @@ const userSchema = new mongoose.Schema({
 
 // create token
 userSchema.methods.createJwt = function(){
-    return jwt.sign({userId: this._id, firstName: this.firstName, lastName: this.lastName, company: this.company},
-    JWTSCRET,{ expiresIn: '30d'});
+    return jwt.sign({userId: this._id, fullName: this.fullName, userName: this.userName, company: this.company},
+        process.env.JWT_SECRET,
+    { 
+        expiresIn: process.env.JWT_LIFETIME
+    });
 }
 
 // hash password
@@ -48,8 +52,14 @@ userSchema.pre('save', async function(next){
     next()
 });
 
-userSchema.methods.getfirstName = function(){
-    return this.firstName
+// compare password
+userSchema.methods.comparePassword = async function(userPassword){
+    const isMatch = await bcrypt.compare(userPassword, this.password)
+    return isMatch
+}
+
+userSchema.methods.getUserName = function(){
+    return this.userName
 }
 
 
