@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require("./userModel");
 
 
 const detailsSchema = new mongoose.Schema({
@@ -27,7 +28,14 @@ const detailsSchema = new mongoose.Schema({
     description:{
         type: String,
         required: true
+    },
+    createdBy: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
-});
+
+
+},{timestamps:true});
 
 module.exports = mongoose.model('Details', detailsSchema)

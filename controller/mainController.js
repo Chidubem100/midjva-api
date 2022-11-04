@@ -2,9 +2,13 @@ const asyncWrapper = require('../middlewares/async');
 const Details = require('../model/mainModel');
 
 
-const getAllDetails = async(req,res) =>{
-    res.status(200).send("get all route")
-}
+const getAllDetails = asyncWrapper(async(req,res) =>{
+    // console.log(createdBy.req.userId)
+    // const createdBy = createdBy:req.user.userId
+    // const created = req.user.userId
+    const details = await Details.find({}).sort('createdAt');
+    return res.status(200).json({success:true, details})
+})
 
 const getDetail = async(req,res) =>{
     res.status(200).send("get detail route")
@@ -17,7 +21,7 @@ const createDetail = asyncWrapper(async(req,res) =>{
     if(!description||!F_name){
         return res.status(400).json({success:false, msg:"Please fill in the person'name and attach a description",});
     }
-    
+
     if(!email){
         return res.status(400).json({success:false, msg:"Please fill in the Email"})
     }
