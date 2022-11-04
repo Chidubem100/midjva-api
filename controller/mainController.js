@@ -3,19 +3,24 @@ const Details = require('../model/mainModel');
 
 
 const getAllDetails = asyncWrapper(async(req,res) =>{
-    // console.log(createdBy.req.userId)
-    // const createdBy = createdBy:req.user.userId
-    // const created = req.user.userId
-    const details = await Details.find({}).sort('createdAt');
+    const details = await Details.find({createdBy:req.user.userId}).sort('createdAt');
     return res.status(200).json({success:true, details})
 })
 
-const getDetail = async(req,res) =>{
-    res.status(200).send("get detail route")
-}
+const getDetail = asyncWrapper(async(req,res)=>{
+
+    const {user: {userId},  params:{_id: detailId}    } = req    
+    const detail = await Details.findOne({_id: detailId,createdBy: userId,});
+    if(!detail){
+        return res.status(400).json({success:false,msg:"Detail doesn't exist"})
+    }
+    return res.status(200).json({success:true, detail})
+});
 
 const createDetail = asyncWrapper(async(req,res) =>{
     
+    req.body.createdBy = req.user.userId
+
     const {email,description,F_name} = req.body
 
     if(!description||!F_name){
