@@ -1,0 +1,5 @@
+This to implement on this project are
+
+1.filter functionalities - search functions and pagination
+
+2.add a new route for updating a users profile and another route for viewing the profile.

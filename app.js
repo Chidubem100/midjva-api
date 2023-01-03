@@ -14,10 +14,6 @@ const mainRouter = require('./routes/mainRouter');
 
 //  APP CONFIG
 app.use(express.json());
-// app.use(notFound);
-app.use(errorHandlerMiddleware);
-
-
 app.use('/api/v1', authRoute);
 app.use('/api/v1', auth,mainRouter);
 
@@ -29,15 +25,17 @@ app.get('/api', (req,res) =>{
     }
 });
 
+app.use(notFound);
+app.use(errorHandlerMiddleware);
 
 
-const Port = process.env.PORT || 2020
+const Port = process.env.PORT || 5000;
 
 const start = async() =>{
     try{
         await connectDB
         app.listen(Port, () =>{
-            console.log('server started!')
+            console.log(`server have started on ${Port}`);
         })
     }catch(error){
         console.log(error)
@@ -45,3 +43,6 @@ const start = async() =>{
 }
 
 start();
+
+// implement rateLimiter and other security features.
+// implement cors

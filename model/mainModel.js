@@ -14,7 +14,7 @@ const detailsSchema = new mongoose.Schema({
 
     F_name:{
         type: String,
-        required: true,
+        
     },
 
     company:{

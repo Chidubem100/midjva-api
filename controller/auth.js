@@ -34,6 +34,7 @@ const login = asyncWrapper(async(req,res) =>{
     res.status(200).json({success: true, user:{userName: user.getUserName()},token})
 });
 
+// for updating user's profile
 
 module.exports = {
     login,

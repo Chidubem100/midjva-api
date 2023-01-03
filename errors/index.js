@@ -8,6 +8,5 @@ const NOTFOUND = require('./notFoundErrors');
 module.exports = {
     NOTFOUND,
     BadRequestError,
-    // BADREQUEST,
     CUSTOMERROR
 }
