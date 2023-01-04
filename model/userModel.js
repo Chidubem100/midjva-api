@@ -20,13 +20,14 @@ const userSchema = new mongoose.Schema({
     },
     userName: {
         type: String,
-        required: [true, 'Please provide your username'],
+        default: 'my username',
         minlength: 3,
         maxlength: 20,
         unique: true,
     },
     company: {
         type: String,
+        default: 'my company',
         minlength: 3,
         maxlength: 20
     },
@@ -47,6 +48,7 @@ userSchema.methods.createJwt = function(){
 
 // hash password
 userSchema.pre('save', async function(next){
+    if(!this.isModified('password')) return;
     const salt = await bcrypt.genSalt(10)
     this.password = await bcrypt.hash(this.password, salt)
     next()

@@ -3,17 +3,25 @@ require('dotenv').config();
 
 
 const express = require("express");
-const app = express();
 const notFound = require('./middlewares/notFound');
 const auth = require('./middlewares/authMiddleware');
 const errorHandlerMiddleware = require('./middlewares/errorHandler');
 const connectDB = require('./db/connect');
 const authRoute = require('./routes/authRouter');
 const mainRouter = require('./routes/mainRouter');
+const helmet = require("helmet");
+const cors = require('cors');
+const xss = require('xss-clean');
+const app = express();
+
 
 
 //  APP CONFIG
+app.set('trust proxy', 1);
 app.use(express.json());
+app.use(helmet());
+app.use(cors());
+app.use(xss());
 app.use('/api/v1', authRoute);
 app.use('/api/v1', auth,mainRouter);
 

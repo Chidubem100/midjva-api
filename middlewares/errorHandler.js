@@ -1,4 +1,4 @@
-const {CustomError} = require('../errors/customError')
+const CustomError = require('../errors/customError')
 
 const errorHandlerMiddleware = (err,req,res,next)=>{
     let customError = {
